@@ -7,6 +7,13 @@ module.exports = {
     filename: 'build.js',
     path: path.resolve(__dirname, 'build'),
   },
+  devServer: {
+    static: {
+      directory: path.join(__dirname, 'build'),
+    },
+    compress: true,
+    port: 9000,
+  },
   module:{
     rules:[{
         test: /\.js$/,
