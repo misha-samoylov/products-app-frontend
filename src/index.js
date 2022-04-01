@@ -65,6 +65,8 @@ class App extends React.Component {
          if (response.data.success == true) {
             self.updateListProducts();
             document.getElementById("form-product-add").reset();
+         } else {
+            alert('Cannot adding a product');
          }
       })
       .catch(function (error) {
