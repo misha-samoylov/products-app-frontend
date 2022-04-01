@@ -17,11 +17,16 @@ class App extends React.Component {
 
       this.showForm = this.showForm.bind(this);
 
-      this.handleSubmit = this.handleSubmit.bind(this);
+      this.submitForm = this.submitForm.bind(this);
       this.handleChange = this.handleChange.bind(this);
+      this.removeProduct = this.removeProduct.bind(this);
    }
 
    componentDidMount() {
+      this.updateListProducts();
+   }
+
+   updateListProducts() {
       var self = this;
 
       axios.get('http://test.nadot.ru/products')
@@ -45,22 +50,22 @@ class App extends React.Component {
       this.setState({ showForm: true });
    }
 
-   handleSubmit(event) {
+   submitForm(event) {
       event.preventDefault();
       this.sendProduct(this.state.formProductName);
    }
 
    sendProduct(productName) {
-      axios({
-         method: 'post',
-         url: 'http://test.nadot.ru/products',
-         data: {
-            name: productName
-         },
-         headers: { "Content-Type": "multipart/form-data" },
+      var self = this;
+
+      axios.post('http://test.nadot.ru/products', {
+         name: productName
       })
       .then(function (response) {
-         console.log(response);
+         if (response.data.success == true) {
+            self.updateListProducts();
+            document.getElementById("form-product-add").reset();
+         }
       })
       .catch(function (error) {
          console.log(error);
@@ -69,6 +74,28 @@ class App extends React.Component {
 
    handleChange(event) {
       this.setState({ formProductName: event.target.value });
+   }
+
+   removeProduct(productId) {
+      var self = this;
+
+      axios({
+         method: 'DELETE',
+         url: 'http://test.nadot.ru/products',
+         data: {
+           id: productId,
+         }
+       })
+      .then(function (response) {
+         if (response.data.success == true) {
+            self.updateListProducts();
+         } else {
+            alert('Cannot delete a product');
+         }
+      })
+      .catch(function (error) {
+         console.log(error);
+      });
    }
 
    render() {
@@ -83,18 +110,18 @@ class App extends React.Component {
             }
             <ul>
                {this.state.products.map(product => (  
-                  <li key={product.id}>{product.name}</li>
+                  <li key={product.id}>{product.name} <a onClick={() => this.removeProduct(product.id)} href="#del">Delete</a></li>
                ))}
             </ul>
-            <a onClick={this.showForm} href="#add">Добавить продукт</a>
+            <a onClick={this.showForm} href="#add">Add product</a>
             {this.state.showForm &&
                <div>
-                  <form onSubmit={this.handleSubmit}>
+                  <form id="form-product-add" onSubmit={this.submitForm}>
                      <label>
-                        Название:
-                        <input type="text" name="name" defaultValue="" onChange={this.handleChange} placeholder="Введите название товара" />
+                        Name:
+                        <input type="text" name="name" defaultValue="" onChange={this.handleChange} placeholder="Enter a product name" />
                      </label>
-                     <button>Добавить</button>
+                     <button>Send</button>
                   </form>
                </div>
             }
