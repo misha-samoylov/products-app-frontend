@@ -8,6 +8,7 @@ module.exports = {
     path: path.resolve(__dirname, 'build'),
   },
   devServer: {
+    host: '0.0.0.0',
     static: {
       directory: path.join(__dirname, 'build'),
     },

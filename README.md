@@ -1,10 +1,19 @@
 # products-app-frontend
-That is a test page for backend.
+That is sample test a frontend page.
 
 ## Build
-npm install
-npm run build
-npm run start
+    npm install
+    npm run build
+    npm run start
+
+You can build app with Docker with command:
+
+    make
+
+After finish working:
+
+    make stop
+    make clean
 
 ## Dependencies
 * NodeJS
