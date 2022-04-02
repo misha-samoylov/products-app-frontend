@@ -9,10 +9,15 @@ import imgCoffee from './img/coffee.png';
 
 import './css/style.css';
 
+const SERVER_URL = 'http://products-backend.nadot.ru';
+const PRODUCTS_URL = '/products';
+
 function Header() {
    return (
       <div className="header">
-         <a class="no-border" href="/"><img className="header-logo" src={imgLogo} alt="Logo" /></a>
+         <a class="no-border" href="/">
+            <img className="header-logo" src={imgLogo} alt="Logo" />
+         </a>
       </div>
    );
 }
@@ -20,10 +25,19 @@ function Header() {
 function CoffeeCup(props) {
    return (
       <div className="coffee">
-         <a className="no-border" href="#"><img className="coffee-img" src={imgCoffee} alt="Coffee" /></a>
+         <a className="no-border" href="#">
+            <img className="coffee-img" src={imgCoffee} alt="Coffee" />
+         </a>
          <div className="coffee-name"><a href="#">{props.name}</a></div>
          <div className="coffee-price">100 RUB</div>
-         <div className="coffee-delete"><a onClick={() => props.onDelete(props.id)} href="#del">Удалить</a></div>
+         <div className="coffee-delete">
+            <a
+               onClick={() => props.onDelete(props.id)}
+               href="#"
+            >
+               Удалить
+            </a>
+         </div>
       </div>
    );
 }
@@ -33,7 +47,6 @@ class App extends React.Component {
       super(props);
 
       this.state = {
-         error: false,
          products: [],
          showForm: false,
          formProductName: ''
@@ -53,16 +66,14 @@ class App extends React.Component {
    updateListProducts() {
       var self = this;
 
-      axios.get('http://test.nadot.ru/products')
+      axios.get(SERVER_URL + PRODUCTS_URL)
          .then(function (response) {
             if (response.data.success == true) {
                self.setState({
                   products: _.values(response.data.products)
                });
             } else {
-               self.setState({
-                  error: true
-               });
+               alert('Не могу загрузить список продуктов');
             }
          })
          .catch(function (error) {
@@ -86,7 +97,7 @@ class App extends React.Component {
    sendProduct(productName) {
       var self = this;
 
-      axios.post('http://test.nadot.ru/products', {
+      axios.post(SERVER_URL + PRODUCTS_URL, {
          name: productName
       })
       .then(function (response) {
@@ -111,7 +122,7 @@ class App extends React.Component {
 
       axios({
          method: 'DELETE',
-         url: 'http://test.nadot.ru/products',
+         url: SERVER_URL + PRODUCTS_URL,
          data: {
            id: productId,
          }
@@ -132,13 +143,8 @@ class App extends React.Component {
       return (
          <div>
             <Header />
-            {this.state.error &&
-               <div>
-                  <p>Error</p>
-               </div>
-            }
             <div className="container">
-               <h1>Только лучшее кофе!</h1>
+               <h1>Только лучший кофе!</h1>
                {this.state.products.map(product => ( 
                   <CoffeeCup
                      name={product.name}
@@ -148,16 +154,18 @@ class App extends React.Component {
                ))}
             </div>
             <div className="cl-b"></div>
-            <div className="container center">
-               <div className="text-show-form">
-                  <a className="dashed" onClick={this.showForm} href="#add">
-                     {!this.state.showForm && "Добавить кофе"}
-                     {this.state.showForm && "Скрыть форму"}
-                  </a>
-               </div>
+            <div className="container container-form">
+               <a className="dashed" onClick={this.showForm} href="#">
+                  {!this.state.showForm && "Добавить кофе"}
+                  {this.state.showForm && "Скрыть форму"}
+               </a>
                {this.state.showForm &&
                   <div>
-                     <form id="form-product-add" className="form-add" onSubmit={this.submitForm}>
+                     <form
+                        id="form-product-add"
+                        className="form-add"
+                        onSubmit={this.submitForm}
+                     >
                         <input
                            className="form-add-input"
                            type="text"
