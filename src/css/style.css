@@ -1,0 +1,126 @@
+html, body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    background-color: #fff;
+    color: #333;
+}
+
+a {
+    color: #000;
+    text-decoration: none;
+    border-bottom: 1px solid #ddd;
+}
+
+a:hover {
+    color: green;
+
+}
+
+a.no-border {
+    border: 0;
+}
+
+a.dashed {
+    border-bottom-style: dashed;
+}
+
+h1 {
+    font-size: 28px;
+    margin-bottom: 38px;
+    text-align: center;
+}
+
+button {
+    background-color: #e7e7e7; 
+    color: #000;
+    border: 0;
+    padding: 8px 14px;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+button:hover {
+    background-color: #ebebeb
+}
+
+input {
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 2px;
+    font-size: 14px;
+    border:1px solid #757575;
+    padding: 5px 8px;
+}
+
+.cl-b {
+    clear: both;
+}
+
+.header {
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid #f0f0f0;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin-bottom:40px;
+}
+
+.header-logo {
+    width: 100px;
+    height: 100px;
+}
+
+.container {
+    width: 800px;
+    margin: 0 auto;
+}
+
+.coffee {
+    float:left;
+    width: 33%;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.coffee-img {
+    height: 80%;
+    width: 40%;
+}
+
+.coffee-name {
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.coffee-price {
+    color: green;
+    margin-top: 5px;
+}
+
+.coffee-delete {
+    margin-top: 5px;
+    font-size: 12px;
+}
+
+.center {
+    text-align: center;
+}
+
+.form-add {
+    background: #fafafa;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 400px;
+    margin: 0 auto;
+    margin-top: 10px;
+    border-radius: 10px;
+}
+
+.form-add-input {
+    margin-right: 10px;
+}
+
+.text-show-form {
+    margin-top: 30px;
+}

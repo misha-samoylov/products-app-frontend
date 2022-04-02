@@ -4,6 +4,30 @@ import * as ReactDOMClient from 'react-dom/client';
 import axios from 'axios';
 import _ from 'lodash';
 
+import imgLogo from './img/logo.png';
+import imgCoffee from './img/coffee.png';
+
+import './css/style.css';
+
+function Header() {
+   return (
+      <div className="header">
+         <a class="no-border" href="/"><img className="header-logo" src={imgLogo} alt="Logo" /></a>
+      </div>
+   );
+}
+
+function CoffeeCup(props) {
+   return (
+      <div className="coffee">
+         <a className="no-border" href="#"><img className="coffee-img" src={imgCoffee} alt="Coffee" /></a>
+         <div className="coffee-name"><a href="#">{props.name}</a></div>
+         <div className="coffee-price">100 RUB</div>
+         <div className="coffee-delete"><a onClick={() => props.onDelete(props.id)} href="#del">Удалить</a></div>
+      </div>
+   );
+}
+
 class App extends React.Component {
    constructor(props) {
       super(props);
@@ -47,7 +71,11 @@ class App extends React.Component {
    }
 
    showForm() {
-      this.setState({ showForm: true });
+      this.setState(prevState =>{
+         return{
+            showForm : !prevState.showForm
+         }
+      })
    }
 
    submitForm(event) {
@@ -66,7 +94,7 @@ class App extends React.Component {
             self.updateListProducts();
             document.getElementById("form-product-add").reset();
          } else {
-            alert('Cannot adding a product');
+            alert('Не могу добавить продукт');
          }
       })
       .catch(function (error) {
@@ -92,7 +120,7 @@ class App extends React.Component {
          if (response.data.success == true) {
             self.updateListProducts();
          } else {
-            alert('Cannot delete a product');
+            alert('Не могу удалить продукт');
          }
       })
       .catch(function (error) {
@@ -103,30 +131,46 @@ class App extends React.Component {
    render() {
       return (
          <div>
-            <h1>Products</h1>
-
+            <Header />
             {this.state.error &&
                <div>
                   <p>Error</p>
                </div>
             }
-            <ul>
-               {this.state.products.map(product => (  
-                  <li key={product.id}>{product.name} <a onClick={() => this.removeProduct(product.id)} href="#del">Delete</a></li>
+            <div className="container">
+               <h1>Только лучшее кофе!</h1>
+               {this.state.products.map(product => ( 
+                  <CoffeeCup
+                     name={product.name}
+                     key={product.id}
+                     onDelete={() => this.removeProduct(product.id)}
+                  />
                ))}
-            </ul>
-            <a onClick={this.showForm} href="#add">Add product</a>
-            {this.state.showForm &&
-               <div>
-                  <form id="form-product-add" onSubmit={this.submitForm}>
-                     <label>
-                        Name:
-                        <input type="text" name="name" defaultValue="" onChange={this.handleChange} placeholder="Enter a product name" />
-                     </label>
-                     <button>Send</button>
-                  </form>
+            </div>
+            <div className="cl-b"></div>
+            <div className="container center">
+               <div className="text-show-form">
+                  <a className="dashed" onClick={this.showForm} href="#add">
+                     {!this.state.showForm && "Добавить кофе"}
+                     {this.state.showForm && "Скрыть форму"}
+                  </a>
                </div>
-            }
+               {this.state.showForm &&
+                  <div>
+                     <form id="form-product-add" className="form-add" onSubmit={this.submitForm}>
+                        <input
+                           className="form-add-input"
+                           type="text"
+                           name="name"
+                           defaultValue=""
+                           onChange={this.handleChange}
+                           placeholder="Введите название кофе"
+                        />
+                        <button>Добавить</button>
+                     </form>
+                  </div>
+               }
+            </div>
          </div>
       );
    }

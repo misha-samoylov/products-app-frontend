@@ -15,7 +15,8 @@ module.exports = {
     port: 9000,
   },
   module:{
-    rules:[{
+    rules:[
+      {
         test: /\.js$/,
         exclude: /node_modules/,
         use: {
@@ -24,7 +25,23 @@ module.exports = {
             presets: ['@babel/preset-env']
           }
         }
-    }]
+      },
+      {
+        test: /\.(png|jpg|gif)$/i,
+        use: [
+          {
+            loader: 'url-loader',
+            options: {
+              limit: 8192,
+            },
+          },
+        ],
+      },
+      {
+        test: /\.css$/i,
+        use: ["style-loader", "css-loader"],
+      },
+    ]
   },
   plugins: [
     new HtmlWebpackPlugin({
