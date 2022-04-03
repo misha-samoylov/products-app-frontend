@@ -25,14 +25,25 @@ function Header() {
 function CoffeeCup(props) {
    return (
       <div className="coffee">
-         <a className="no-border" href="#">
+         <a
+            className="no-border"
+            href="#"
+            onClick={() => props.onLinkClick()}
+         >
             <img className="coffee-img" src={imgCoffee} alt="Coffee" />
          </a>
-         <div className="coffee-name"><a href="#">{props.name}</a></div>
+         <div className="coffee-name">
+            <a
+               href="#"
+               onClick={() => props.onLinkClick()}
+            >
+               {props.name}
+            </a>
+         </div>
          <div className="coffee-price">100 RUB</div>
          <div className="coffee-delete">
             <a
-               onClick={() => props.onDelete(props.id)}
+               onClick={() => props.onDelete()}
                href="#"
             >
                Удалить
@@ -87,6 +98,10 @@ class App extends React.Component {
             showForm : !prevState.showForm
          }
       })
+   }
+
+   openProductLink() {
+      alert("Это событие при нажатии на продукт");
    }
 
    submitForm(event) {
@@ -150,6 +165,7 @@ class App extends React.Component {
                      name={product.name}
                      key={product.id}
                      onDelete={() => this.removeProduct(product.id)}
+                     onLinkClick={() => this.openProductLink(product.id)}
                   />
                ))}
             </div>
